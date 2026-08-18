@@ -10,6 +10,14 @@ const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
 directionalLight.position.set(5, 10, 5);
 scene.add(directionalLight);
 
+const geometry = new THREE.BoxGeometry(1, 1, 1);
+const material = new THREE.MeshStandardMaterial({
+  color: 0x4f8cff,
+});
+
+const cube = new THREE.Mesh(geometry, material);
+scene.add(cube);
+
 const camera = new THREE.PerspectiveCamera(
   75,
   window.innerWidth / window.innerHeight,
