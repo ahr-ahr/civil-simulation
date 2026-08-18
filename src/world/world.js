@@ -1,4 +1,6 @@
 import * as THREE from "three";
+
+import { createEnvironment } from "./environment.js";
 import { createGround } from "./ground.js";
 import { createGrid } from "./grid.js";
 import { createOrigin } from "./origin.js";
@@ -18,13 +20,7 @@ export function createWorld(scene) {
   const origin = createOrigin();
   scene.add(origin);
 
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-  scene.add(ambientLight);
-
-  const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-  directionalLight.position.set(5, 10, 5);
-  scene.add(directionalLight);
-
+  const environment = createEnvironment(scene);
   const geometry = new THREE.BoxGeometry(1, 1, 1);
   const material = new THREE.MeshStandardMaterial({
     color: 0x4f8cff,
@@ -38,6 +34,7 @@ export function createWorld(scene) {
     ground,
     terrain,
     origin,
+    environment,
     cube,
   };
 }
