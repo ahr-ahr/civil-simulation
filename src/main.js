@@ -4,6 +4,7 @@ import { createRenderer, handleRendererResize } from "./core/renderer.js";
 import { createLoop } from "./core/loop.js";
 import { createWorld } from "./world/world.js";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import { createViewport } from "./workspace/viewport.js";
 
 const scene = createScene();
 
@@ -12,6 +13,7 @@ const camera = createCamera();
 const renderer = createRenderer();
 
 document.body.appendChild(renderer.domElement);
+const viewport = createViewport(renderer);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 
