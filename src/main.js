@@ -2,6 +2,9 @@ import * as THREE from "three";
 
 const scene = new THREE.Scene();
 
+const grid = new THREE.GridHelper(20, 20);
+scene.add(grid);
+
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
 scene.add(ambientLight);
 
