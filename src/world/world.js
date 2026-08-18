@@ -5,20 +5,23 @@ import { createGround } from "./ground.js";
 import { createGrid } from "./grid.js";
 import { createOrigin } from "./origin.js";
 import { createTerrain } from "./terrain.js";
+import { createWorldManager } from "./worldManager.js";
 
 export function createWorld(scene) {
+  const manager = createWorldManager(scene);
+
   const grid = createGrid();
-  scene.add(grid);
+  manager.add(grid);
 
   const ground = createGround();
-  scene.add(ground);
+  manager.add(ground);
 
   const terrain = createTerrain();
   terrain.position.y = 0.01;
-  scene.add(terrain);
+  manager.add(terrain);
 
   const origin = createOrigin();
-  scene.add(origin);
+  manager.add(origin);
 
   const environment = createEnvironment(scene);
   const geometry = new THREE.BoxGeometry(1, 1, 1);
@@ -27,9 +30,10 @@ export function createWorld(scene) {
   });
 
   const cube = new THREE.Mesh(geometry, material);
-  scene.add(cube);
+  manager.add(cube);
 
   return {
+    manager,
     grid,
     ground,
     terrain,
