@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { createGround } from "./ground.js";
 import { createGrid } from "./grid.js";
 import { createOrigin } from "./origin.js";
+import { createTerrain } from "./terrain.js";
 
 export function createWorld(scene) {
   const grid = createGrid();
@@ -9,6 +10,10 @@ export function createWorld(scene) {
 
   const ground = createGround();
   scene.add(ground);
+
+  const terrain = createTerrain();
+  terrain.position.y = 0.01;
+  scene.add(terrain);
 
   const origin = createOrigin();
   scene.add(origin);
@@ -31,6 +36,7 @@ export function createWorld(scene) {
   return {
     grid,
     ground,
+    terrain,
     origin,
     cube,
   };
