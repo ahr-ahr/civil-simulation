@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
 const scene = new THREE.Scene();
 
@@ -9,7 +10,6 @@ const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
 scene.add(ambientLight);
 
 const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-
 directionalLight.position.set(5, 10, 5);
 scene.add(directionalLight);
 
@@ -37,6 +37,10 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.setClearColor(0x202020);
 
 document.body.appendChild(renderer.domElement);
+
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.target.set(0, 0, 0);
+controls.update();
 
 function animate() {
   requestAnimationFrame(animate);
