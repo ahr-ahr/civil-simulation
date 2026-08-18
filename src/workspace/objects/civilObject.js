@@ -1,5 +1,7 @@
 import * as THREE from "three";
 
+import { createObjectMetadata } from "../../civil/objects/objectMetadata.js";
+
 export function createCivilObject({ id, type, name }) {
   const object = new THREE.Group();
 
@@ -8,7 +10,7 @@ export function createCivilObject({ id, type, name }) {
   object.userData = {
     id,
     type,
-    metadata: {},
+    metadata: createObjectMetadata(),
   };
 
   return object;
