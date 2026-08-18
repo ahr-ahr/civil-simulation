@@ -5,5 +5,9 @@ export function createViewport(renderer) {
 
   return {
     element,
+
+    getBoundingClientRect() {
+      return element.getBoundingClientRect();
+    },
   };
 }
