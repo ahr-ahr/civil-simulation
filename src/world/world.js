@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { createGround } from "./ground.js";
 import { createGrid } from "./grid.js";
+import { createOrigin } from "./origin.js";
 
 export function createWorld(scene) {
   const grid = createGrid();
@@ -8,6 +9,9 @@ export function createWorld(scene) {
 
   const ground = createGround();
   scene.add(ground);
+
+  const origin = createOrigin();
+  scene.add(origin);
 
   const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
   scene.add(ambientLight);
@@ -27,6 +31,7 @@ export function createWorld(scene) {
   return {
     grid,
     ground,
+    origin,
     cube,
   };
 }
