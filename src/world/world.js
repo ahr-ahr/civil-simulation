@@ -1,8 +1,9 @@
 import * as THREE from "three";
 import { createGround } from "./ground.js";
+import { createGrid } from "./grid.js";
 
 export function createWorld(scene) {
-  const grid = new THREE.GridHelper(20, 20);
+  const grid = createGrid();
   scene.add(grid);
 
   const ground = createGround();
