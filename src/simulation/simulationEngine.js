@@ -7,6 +7,7 @@ export function createSimulationEngine() {
   const state = createSimulationState();
   const clock = createSimulationClock();
   const events = createSimulationEvents();
+  const simulationObjects = new Set();
 
   function start() {
     state.start();
@@ -42,10 +43,24 @@ export function createSimulationEngine() {
 
     clock.update(deltaTime);
 
-    events.emit(SIMULATION_EVENTS.UPDATED, {
+    const context = {
       deltaTime,
       elapsedTime: clock.getElapsedTime(),
-    });
+    };
+
+    for (const simulationObject of simulationObjects) {
+      simulationObject.update(context);
+    }
+
+    events.emit(SIMULATION_EVENTS.UPDATED, context);
+  }
+
+  function addObject(simulationObject) {
+    simulationObjects.add(simulationObject);
+  }
+
+  function removeObject(simulationObject) {
+    simulationObjects.delete(simulationObject);
   }
 
   function getState() {
@@ -64,6 +79,8 @@ export function createSimulationEngine() {
     update,
     getState,
     getElapsedTime,
+    addObject,
+    removeObject,
     on: events.on,
     off: events.off,
   };
