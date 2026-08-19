@@ -6,6 +6,7 @@ import { createSpatialGravity } from "./spatialGravity.js";
 import { createSpatialMovement } from "./spatialMovement.js";
 import { createSpatialCollision } from "./spatialCollision.js";
 import { createSpatialConstraints } from "./spatialConstraints.js";
+import { createConstructionProcess } from "../construction/constructionProcess.js";
 
 export function createSimulationObject(object) {
   let simulationState = {};
@@ -16,31 +17,26 @@ export function createSimulationObject(object) {
     rotation: object.rotation.clone(),
     scale: object.scale.clone(),
   };
-
   const spatialState = createSpatialState(object);
-
   const spatialTransform = createSpatialTransform(object, spatialState);
-
   const velocity = createSpatialVelocity();
-
   const acceleration = createSpatialAcceleration();
-
   const gravity = createSpatialGravity();
-
   const movement = createSpatialMovement({
     spatialState,
     velocity,
     acceleration,
     gravity,
   });
-
   const collision = createSpatialCollision({
     spatialState,
     groundY: 0,
   });
-
   const constraints = createSpatialConstraints({
     spatialState,
+  });
+  const construction = createConstructionProcess({
+    duration: 10,
   });
 
   function update(context) {
@@ -55,6 +51,8 @@ export function createSimulationObject(object) {
     constraints.apply();
 
     spatialTransform.syncToObject();
+
+    construction.update(context.deltaTime);
 
     if (behavior) {
       behavior.execute(context, object);
@@ -125,6 +123,22 @@ export function createSimulationObject(object) {
     return gravity.get();
   }
 
+  function startConstruction() {
+    construction.start();
+  }
+
+  function resetConstruction() {
+    construction.reset();
+  }
+
+  function getConstructionState() {
+    return construction.getState();
+  }
+
+  function isConstructionComplete() {
+    return construction.isComplete();
+  }
+
   return {
     update,
 
@@ -141,5 +155,10 @@ export function createSimulationObject(object) {
     getVelocity,
     getAcceleration,
     getGravity,
+
+    startConstruction,
+    resetConstruction,
+    getConstructionState,
+    isConstructionComplete,
   };
 }
