@@ -2,12 +2,15 @@ import { createSimulationState } from "./simulationState.js";
 import { createSimulationClock } from "./simulationClock.js";
 import { createSimulationEvents } from "./simulationEvents.js";
 import { SIMULATION_EVENTS } from "./simulationEventTypes.js";
+import { createSimulationContext } from "./simulationContext.js";
+import { createSimulationParameters } from "./simulationParameters.js";
 
 export function createSimulationEngine() {
   const state = createSimulationState();
   const clock = createSimulationClock();
   const events = createSimulationEvents();
   const simulationObjects = new Set();
+  const parameters = createSimulationParameters();
 
   function start() {
     state.start();
@@ -51,10 +54,11 @@ export function createSimulationEngine() {
 
     clock.update(deltaTime);
 
-    const context = {
+    const context = createSimulationContext({
       deltaTime,
       elapsedTime: clock.getElapsedTime(),
-    };
+      parameters: parameters.getAll(),
+    });
 
     for (const simulationObject of simulationObjects) {
       simulationObject.update(context);
@@ -101,6 +105,10 @@ export function createSimulationEngine() {
     return clock.getElapsedTime();
   }
 
+  function getParameters() {
+    return parameters.getAll();
+  }
+
   return {
     start,
     pause,
@@ -110,6 +118,7 @@ export function createSimulationEngine() {
     update,
     getState,
     getElapsedTime,
+    getParameters,
     addObject,
     removeObject,
     registerObject,
