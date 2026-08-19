@@ -10,9 +10,19 @@ import { createSelectionSystem } from "./workspace/selection.js";
 import { createWorkspaceInteraction } from "./workspace/workspaceInteraction.js";
 import { TOOL_TYPES } from "./workspace/tools/toolTypes.js";
 import { createSimulationEngine } from "./simulation/simulationEngine.js";
+import { createSimulationCommands } from "./simulation/simulationCommands.js";
+
+import { createSimulationRuntimeControls } from "./simulation/simulationRuntimeControls.js";
 
 const scene = createScene();
 const simulation = createSimulationEngine();
+const commands = createSimulationCommands(simulation);
+
+const runtimeControls = createSimulationRuntimeControls({
+  commands,
+});
+
+runtimeControls.attach();
 const camera = createCamera();
 const renderer = createRenderer();
 
