@@ -23,6 +23,14 @@ export function createSimulationEngine() {
     events.emit(SIMULATION_EVENTS.PAUSED);
   }
 
+  function resume() {
+    state.start();
+
+    if (state.isRunning()) {
+      events.emit(SIMULATION_EVENTS.STARTED);
+    }
+  }
+
   function reset() {
     state.reset();
     clock.reset();
@@ -74,6 +82,7 @@ export function createSimulationEngine() {
   return {
     start,
     pause,
+    resume,
     reset,
     complete,
     update,
