@@ -9,8 +9,10 @@ import { createWorkspace } from "./workspace/workspace.js";
 import { createSelectionSystem } from "./workspace/selection.js";
 import { createWorkspaceInteraction } from "./workspace/workspaceInteraction.js";
 import { TOOL_TYPES } from "./workspace/tools/toolTypes.js";
+import { createSimulationEngine } from "./simulation/simulationEngine.js";
 
 const scene = createScene();
+const simulation = createSimulationEngine();
 const camera = createCamera();
 const renderer = createRenderer();
 
@@ -46,7 +48,8 @@ window.addEventListener("resize", () => {
   handleRendererResize(renderer, camera);
 });
 
-const loop = createLoop(() => {
+const loop = createLoop((deltaTime) => {
+  simulation.update(deltaTime);
   renderer.render(scene, camera);
 });
 

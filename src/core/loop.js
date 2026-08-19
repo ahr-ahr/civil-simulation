@@ -1,8 +1,14 @@
+import * as THREE from "three";
+
 export function createLoop(render) {
+  const clock = new THREE.Clock();
+
   function animate() {
     requestAnimationFrame(animate);
 
-    render();
+    const deltaTime = clock.getDelta();
+
+    render(deltaTime);
   }
 
   return {

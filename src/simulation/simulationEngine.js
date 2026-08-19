@@ -1,7 +1,9 @@
 import { createSimulationState } from "./simulationState.js";
+import { createSimulationClock } from "./simulationClock.js";
 
 export function createSimulationEngine() {
   const state = createSimulationState();
+  const clock = createSimulationClock();
 
   function start() {
     state.start();
@@ -13,6 +15,7 @@ export function createSimulationEngine() {
 
   function reset() {
     state.reset();
+    clock.reset();
   }
 
   function complete() {
@@ -24,11 +27,15 @@ export function createSimulationEngine() {
       return;
     }
 
-    // Simulation update will be implemented later.
+    clock.update(deltaTime);
   }
 
   function getState() {
     return state.getState();
+  }
+
+  function getElapsedTime() {
+    return clock.getElapsedTime();
   }
 
   return {
@@ -38,5 +45,6 @@ export function createSimulationEngine() {
     complete,
     update,
     getState,
+    getElapsedTime,
   };
 }
