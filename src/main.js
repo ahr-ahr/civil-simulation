@@ -11,10 +11,14 @@ import { createWorkspaceInteraction } from "./workspace/workspaceInteraction.js"
 import { TOOL_TYPES } from "./workspace/tools/toolTypes.js";
 import { createSimulationEngine } from "./simulation/simulationEngine.js";
 import { createSimulationCommands } from "./simulation/simulationCommands.js";
-
 import { createSimulationRuntimeControls } from "./simulation/simulationRuntimeControls.js";
+import { createCivilObjectManager } from "./civil/objects/civilObjectManager.js";
+import { createSimulationObject } from "./simulation/simulationObject.js";
+import { createSimulationBehavior } from "./simulation/simulationBehavior.js";
+import { createBuilding } from "./civil/objects/building.js";
 
 const scene = createScene();
+const objectManager = createCivilObjectManager(scene);
 const simulation = createSimulationEngine();
 const commands = createSimulationCommands(simulation);
 
@@ -35,6 +39,24 @@ controls.target.set(0, 0, 0);
 controls.update();
 
 const world = createWorld(scene);
+const building = createBuilding({
+  id: "building-001",
+  name: "Simulation Building",
+});
+
+objectManager.add(building);
+
+const simulationObject = createSimulationObject(building);
+
+const behavior = createSimulationBehavior({
+  update(context, object) {
+    object.position.x += context.deltaTime * 2;
+  },
+});
+
+simulationObject.setBehavior(behavior);
+
+simulation.addObject(simulationObject);
 const selection = createSelectionSystem(camera, viewport);
 const interaction = createWorkspaceInteraction({
   workspace,
