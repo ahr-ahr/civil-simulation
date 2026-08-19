@@ -1,6 +1,12 @@
 export function createSimulationObject(object) {
   let simulationState = {};
 
+  const initialTransform = {
+    position: object.position.clone(),
+    rotation: object.rotation.clone(),
+    scale: object.scale.clone(),
+  };
+
   function update(context) {
     if (!object.visible) {
       return;
@@ -22,9 +28,18 @@ export function createSimulationObject(object) {
     return simulationState;
   }
 
+  function getInitialTransform() {
+    return {
+      position: initialTransform.position.clone(),
+      rotation: initialTransform.rotation.clone(),
+      scale: initialTransform.scale.clone(),
+    };
+  }
+
   return {
     update,
     setState,
     getState,
+    getInitialTransform,
   };
 }
