@@ -4,6 +4,7 @@ import { createSimulationEvents } from "./simulationEvents.js";
 import { SIMULATION_EVENTS } from "./simulationEventTypes.js";
 import { createSimulationContext } from "./simulationContext.js";
 import { createSimulationParameters } from "./simulationParameters.js";
+import { createSimulationBehaviorRegistry } from "./simulationBehaviorRegistry.js";
 
 export function createSimulationEngine() {
   const state = createSimulationState();
@@ -11,6 +12,7 @@ export function createSimulationEngine() {
   const events = createSimulationEvents();
   const simulationObjects = new Set();
   const parameters = createSimulationParameters();
+  const behaviorRegistry = createSimulationBehaviorRegistry();
 
   function start() {
     state.start();
@@ -114,6 +116,18 @@ export function createSimulationEngine() {
     return parameters.getTimeScale();
   }
 
+  function registerBehavior(name, behavior) {
+    behaviorRegistry.register(name, behavior);
+  }
+
+  function unregisterBehavior(name) {
+    behaviorRegistry.unregister(name);
+  }
+
+  function getBehavior(name) {
+    return behaviorRegistry.get(name);
+  }
+
   return {
     start,
     pause,
@@ -132,5 +146,8 @@ export function createSimulationEngine() {
     unregisterObject,
     on: events.on,
     off: events.off,
+    registerBehavior,
+    unregisterBehavior,
+    getBehavior,
   };
 }
