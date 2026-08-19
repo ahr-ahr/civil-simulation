@@ -14,7 +14,6 @@ import { createSimulationCommands } from "./simulation/simulationCommands.js";
 import { createSimulationRuntimeControls } from "./simulation/simulationRuntimeControls.js";
 import { createCivilObjectManager } from "./civil/objects/civilObjectManager.js";
 import { createSimulationObject } from "./simulation/simulationObject.js";
-import { createSimulationBehavior } from "./simulation/simulationBehavior.js";
 import { createBuilding } from "./civil/objects/building.js";
 
 const scene = createScene();
@@ -47,14 +46,6 @@ const building = createBuilding({
 objectManager.add(building);
 
 const simulationObject = createSimulationObject(building);
-
-const behavior = createSimulationBehavior({
-  update(context, object) {
-    object.position.x += context.deltaTime * 2;
-  },
-});
-
-simulationObject.setBehavior(behavior);
 
 simulation.addObject(simulationObject);
 const selection = createSelectionSystem(camera, viewport);
