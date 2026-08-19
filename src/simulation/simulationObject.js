@@ -1,5 +1,6 @@
 export function createSimulationObject(object) {
   let simulationState = {};
+  let behavior = null;
 
   const initialTransform = {
     position: object.position.clone(),
@@ -12,9 +13,17 @@ export function createSimulationObject(object) {
       return;
     }
 
-    if (typeof object.userData.onSimulationUpdate === "function") {
-      object.userData.onSimulationUpdate(context, object);
+    if (behavior) {
+      behavior.execute(context, object);
     }
+  }
+
+  function setBehavior(nextBehavior) {
+    behavior = nextBehavior;
+  }
+
+  function clearBehavior() {
+    behavior = null;
   }
 
   function setState(state) {
@@ -38,14 +47,14 @@ export function createSimulationObject(object) {
 
   function restoreInitialState() {
     object.position.copy(initialTransform.position);
-
     object.rotation.copy(initialTransform.rotation);
-
     object.scale.copy(initialTransform.scale);
   }
 
   return {
     update,
+    setBehavior,
+    clearBehavior,
     setState,
     getState,
     getInitialTransform,
