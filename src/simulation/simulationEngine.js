@@ -71,6 +71,28 @@ export function createSimulationEngine() {
     simulationObjects.delete(simulationObject);
   }
 
+  function registerObject(object) {
+    const simulationObject = object.userData.simulationObject;
+
+    if (!simulationObject) {
+      return null;
+    }
+
+    simulationObjects.add(simulationObject);
+
+    return simulationObject;
+  }
+
+  function unregisterObject(object) {
+    const simulationObject = object.userData.simulationObject;
+
+    if (!simulationObject) {
+      return;
+    }
+
+    simulationObjects.delete(simulationObject);
+  }
+
   function getState() {
     return state.getState();
   }
@@ -90,6 +112,8 @@ export function createSimulationEngine() {
     getElapsedTime,
     addObject,
     removeObject,
+    registerObject,
+    unregisterObject,
     on: events.on,
     off: events.off,
   };
