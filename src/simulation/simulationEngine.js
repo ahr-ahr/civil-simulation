@@ -22,7 +22,6 @@ export function createSimulationEngine() {
 
   function pause() {
     state.pause();
-
     events.emit(SIMULATION_EVENTS.PAUSED);
   }
 
@@ -37,13 +36,11 @@ export function createSimulationEngine() {
   function reset() {
     state.reset();
     clock.reset();
-
     events.emit(SIMULATION_EVENTS.RESET);
   }
 
   function complete() {
     state.complete();
-
     events.emit(SIMULATION_EVENTS.COMPLETED);
   }
 
@@ -52,7 +49,7 @@ export function createSimulationEngine() {
       return;
     }
 
-    clock.update(deltaTime);
+    clock.update(deltaTime, parameters.getTimeScale());
 
     const context = createSimulationContext({
       deltaTime,
@@ -109,6 +106,14 @@ export function createSimulationEngine() {
     return parameters.getAll();
   }
 
+  function setTimeScale(value) {
+    parameters.setTimeScale(value);
+  }
+
+  function getTimeScale() {
+    return parameters.getTimeScale();
+  }
+
   return {
     start,
     pause,
@@ -119,6 +124,8 @@ export function createSimulationEngine() {
     getState,
     getElapsedTime,
     getParameters,
+    setTimeScale,
+    getTimeScale,
     addObject,
     removeObject,
     registerObject,

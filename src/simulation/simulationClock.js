@@ -1,21 +1,8 @@
 export function createSimulationClock() {
   let elapsedTime = 0;
-  let timeScale = 1;
 
-  function update(deltaTime) {
+  function update(deltaTime, timeScale = 1) {
     elapsedTime += deltaTime * timeScale;
-  }
-
-  function setTimeScale(scale) {
-    if (scale < 0) {
-      return;
-    }
-
-    timeScale = scale;
-  }
-
-  function getTimeScale() {
-    return timeScale;
   }
 
   function getElapsedTime() {
@@ -28,8 +15,6 @@ export function createSimulationClock() {
 
   return {
     update,
-    setTimeScale,
-    getTimeScale,
     getElapsedTime,
     reset,
   };
