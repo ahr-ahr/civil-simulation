@@ -1,18 +1,26 @@
-import { createSimulationState, SIMULATION_STATES } from "./simulationState.js";
+import { createSimulationState } from "./simulationState.js";
 
 export function createSimulationEngine() {
   const state = createSimulationState();
 
   function start() {
-    state.setState(SIMULATION_STATES.RUNNING);
+    state.start();
   }
 
-  function stop() {
-    state.setState(SIMULATION_STATES.IDLE);
+  function pause() {
+    state.pause();
+  }
+
+  function reset() {
+    state.reset();
+  }
+
+  function complete() {
+    state.complete();
   }
 
   function update(deltaTime) {
-    if (state.getState() !== SIMULATION_STATES.RUNNING) {
+    if (!state.isRunning()) {
       return;
     }
 
@@ -25,7 +33,9 @@ export function createSimulationEngine() {
 
   return {
     start,
-    stop,
+    pause,
+    reset,
+    complete,
     update,
     getState,
   };
