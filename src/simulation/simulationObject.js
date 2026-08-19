@@ -36,10 +36,19 @@ export function createSimulationObject(object) {
     };
   }
 
+  function restoreInitialState() {
+    object.position.copy(initialTransform.position);
+
+    object.rotation.copy(initialTransform.rotation);
+
+    object.scale.copy(initialTransform.scale);
+  }
+
   return {
     update,
     setState,
     getState,
     getInitialTransform,
+    restoreInitialState,
   };
 }
