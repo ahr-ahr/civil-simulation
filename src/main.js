@@ -16,6 +16,9 @@ import { createCivilObjectManager } from "./civil/objects/civilObjectManager.js"
 import { createSimulationObject } from "./simulation/simulationObject.js";
 import { createBuilding } from "./civil/objects/building.js";
 
+import { createScenarioState } from "./scenario/scenarioState.js";
+import { createScenarioIntegration } from "./scenario/scenarioIntegration.js";
+
 const scene = createScene();
 const objectManager = createCivilObjectManager(scene);
 const simulation = createSimulationEngine();
@@ -43,11 +46,26 @@ const building = createBuilding({
   name: "Simulation Building",
 });
 
-objectManager.add(building);
+// Handled internally by ScenarioIntegration.
+// Do not register the object directly here.
+// objectManager.add(building);
 
 const simulationObject = createSimulationObject(building);
+const scenario = createScenarioState({
+  id: "scenario-001",
+  name: "Three Floor Building",
+});
+const scenarioIntegration = createScenarioIntegration({
+  scenario,
+  objectManager,
+  simulation,
+});
 
-simulation.addObject(simulationObject);
+scenarioIntegration.addObject("building-001", building, simulationObject);
+// Handled internally by ScenarioIntegration.
+// Do not register the simulation object directly here.
+// simulation.addObject(simulationObject);
+
 const selection = createSelectionSystem(camera, viewport);
 const interaction = createWorkspaceInteraction({
   workspace,
